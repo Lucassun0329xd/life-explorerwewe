@@ -343,15 +343,14 @@ input {
         maxlength="20"
       />
 
-     <div style="color:#888; font-size:16px; margin-bottom:6px; width:100%; text-align:left; box-sizing:border-box;">
-  出生日期
-</div>
-      <input
-        id="birthday"
-        class="input-field"
-        type="date"
-      />
-
+  <input
+  id="birthday"
+  class="input-field"
+  type="text"
+  placeholder="出生日期"
+  onfocus="this.type='date'"
+  onblur="if(!this.value) this.type='text'"
+/>
     </div>
 
     <button
