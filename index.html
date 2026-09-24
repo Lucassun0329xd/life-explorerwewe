@@ -1,1252 +1,958 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>生命探索</title>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  />
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html,
-    body {
-      width: 100%;
-      min-height: 100%;
-    }
-
-    body {
-      background: #0c0c0c;
-      color: #f1eee7;
-      font-family: "Noto Sans TC", sans-serif;
-      font-weight: 300;
-    }
-
-    button,
-    input {
-      font-family: inherit;
-    }
-
-    .page {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 24px 60px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .fade-in {
-      animation: fadeIn 0.7s ease;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* 贊助按鈕 */
-
-    .sponsor-button {
-      position: fixed;
-      top: 22px;
-      right: 22px;
-      z-index: 1000;
-
-      color: #f1eee7;
-      text-decoration: none;
-
-      border: 1px solid rgba(241, 238, 231, 0.35);
-      border-radius: 999px;
-
-      padding: 9px 15px;
-
-      font-size: 13px;
-      letter-spacing: 0.04em;
-
-      background: rgba(12, 12, 12, 0.88);
-
-      transition:
-        background 0.25s ease,
-        border-color 0.25s ease;
-    }
-
-    .sponsor-button:hover {
-      background: #191919;
-      border-color: rgba(241, 238, 231, 0.65);
-    }
-
-    /* 首頁 */
-
-    .start-container {
-      width: min(560px, 100%);
-      text-align: center;
-    }
-
-    .main-title {
-      font-family: "Noto Serif TC", serif;
-      font-size: clamp(42px, 9vw, 76px);
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      margin-bottom: 18px;
-    }
-
-    .subtitle {
-      font-size: 15px;
-      color: rgba(241, 238, 231, 0.62);
-      letter-spacing: 0.15em;
-      margin-bottom: 52px;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-
-    .input-field {
-      width: 100%;
-      height: 54px;
-
-      border: 1px solid rgba(241, 238, 231, 0.22);
-      background: transparent;
-      color: #f1eee7;
-
-      border-radius: 3px;
-
-      padding: 0 18px;
-
-      outline: none;
-
-      font-size: 15px;
-      font-weight: 300;
-
-      transition:
-        border-color 0.25s ease,
-        background 0.25s ease;
-    }
-
-    .input-field::placeholder {
-      color: rgba(241, 238, 231, 0.38);
-    }
-
-    .input-field:focus {
-      border-color: rgba(241, 238, 231, 0.65);
-      background: rgba(255, 255, 255, 0.025);
-    }
-
-    .main-button {
-      width: 100%;
-      height: 54px;
-
-      border: 1px solid #f1eee7;
-      background: #f1eee7;
-      color: #0c0c0c;
-
-      border-radius: 3px;
-
-      cursor: pointer;
-
-      font-size: 15px;
-      letter-spacing: 0.08em;
-
-      transition:
-        background 0.25s ease,
-        color 0.25s ease;
-    }
-
-    .main-button:hover {
-      background: transparent;
-      color: #f1eee7;
-    }
-
-    .visitor-counter {
-      margin-top: 70px;
-      text-align: center;
-    }
-
-    .counter-number {
-      font-family: "Noto Serif TC", serif;
-      font-size: 10px;
-      color: rgba(241, 238, 231, 0.25);
-      letter-spacing: 0.1em;
-    }
-
-    /* 結果頁 */
-
-    .result-container {
-      width: min(920px, 100%);
-    }
-
-    .back-button {
-      border: none;
-      background: transparent;
-      color: rgba(241, 238, 231, 0.48);
-
-      font-size: 13px;
-      font-weight: 300;
-
-      cursor: pointer;
-
-      padding: 0;
-      margin-bottom: 42px;
-
-      transition: color 0.2s ease;
-    }
-
-    .back-button:hover {
-      color: #f1eee7;
-    }
-
-    .hello {
-      font-family: "Noto Serif TC", serif;
-      font-size: clamp(25px, 5vw, 38px);
-      margin-bottom: 13px;
-      letter-spacing: 0.05em;
-    }
-
-    .identity {
-      font-size: 16px;
-      color: rgba(241, 238, 231, 0.68);
-      margin-bottom: 58px;
-      letter-spacing: 0.08em;
-    }
-
-    .section {
-      margin-bottom: 48px;
-    }
-
-    .section-label {
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      color: rgba(241, 238, 231, 0.42);
-      margin-bottom: 15px;
-    }
-
-    .personality-text {
-      font-family: "Noto Serif TC", serif;
-      font-size: clamp(18px, 3vw, 23px);
-      line-height: 2;
-      color: #f1eee7;
-    }
-
-    .fortune-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-
-      background: rgba(241, 238, 231, 0.13);
-
-      border: 1px solid rgba(241, 238, 231, 0.13);
-    }
-
-    .fortune-item {
-      min-height: 135px;
-
-      background: #0c0c0c;
-
-      padding: 27px 25px;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .fortune-label {
-      font-size: 12px;
-      color: rgba(241, 238, 231, 0.42);
-      letter-spacing: 0.1em;
-    }
-
-    .fortune-value {
-      font-family: "Noto Serif TC", serif;
-      font-size: 20px;
-      line-height: 1.6;
-      color: #f1eee7;
-    }
-
-    .reminder-box {
-      border-left: 1px solid rgba(241, 238, 231, 0.35);
-      padding: 5px 0 5px 20px;
-    }
-
-    .reminder-text {
-      font-family: "Noto Serif TC", serif;
-      font-size: 18px;
-      line-height: 2;
-      color: rgba(241, 238, 231, 0.82);
-    }
-
-    @media (max-width: 700px) {
-      .page {
-        padding: 80px 20px 45px;
-      }
-
-      .sponsor-button {
-        top: 15px;
-        right: 15px;
-        font-size: 12px;
-        padding: 8px 12px;
-      }
-
-      .subtitle {
-        margin-bottom: 42px;
-        font-size: 13px;
-      }
-
-      .fortune-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .fortune-item {
-        min-height: 110px;
-      }
-
-      .identity {
-        margin-bottom: 45px;
-      }
-
-      .section {
-        margin-bottom: 40px;
-      }
-    }
-  </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://zwnuuwgkydimpivkfqts.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_DT9iA0H9iQ_TGb-mBshsVw_aSblTWYS";
+
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+</script>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>生命探索</title>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: #0c0c0c;
+  color: #f1eee7;
+  font-family: "Noto Sans TC", sans-serif;
+  font-weight: 300;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px 60px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.fade-in {
+  animation: fadeIn 0.7s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sponsor-button {
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  z-index: 1000;
+  color: #f1eee7;
+  text-decoration: none;
+  border: 1px solid rgba(241, 238, 231, 0.35);
+  border-radius: 999px;
+  padding: 9px 15px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  background: rgba(12, 12, 12, 0.88);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.sponsor-button:hover {
+  background: #191919;
+  border-color: rgba(241, 238, 231, 0.65);
+}
+
+.start-container {
+  width: min(560px, 100%);
+  text-align: center;
+}
+
+.main-title {
+  font-family: "Noto Serif TC", serif;
+  font-size: clamp(42px, 9vw, 76px);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  margin-bottom: 18px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: rgba(241, 238, 231, 0.62);
+  letter-spacing: 0.15em;
+  margin-bottom: 52px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.input-field {
+  width: 100%;
+  height: 54px;
+  border: 1px solid rgba(241, 238, 231, 0.22);
+  background: transparent;
+  color: #f1eee7;
+  border-radius: 3px;
+  padding: 0 18px;
+  outline: none;
+  font-size: 15px;
+  font-weight: 300;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.input-field::placeholder {
+  color: rgba(241, 238, 231, 0.38);
+}
+
+.input-field:focus {
+  border-color: rgba(241, 238, 231, 0.65);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.main-button {
+  width: 100%;
+  height: 54px;
+  border: 1px solid #f1eee7;
+  background: #f1eee7;
+  color: #0c0c0c;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.main-button:hover {
+  background: transparent;
+  color: #f1eee7;
+}
+
+.visitor-counter {
+  margin-top: 70px;
+  text-align: center;
+}
+
+.counter-number {
+  font-family: "Noto Serif TC", serif;
+  font-size: 10px;
+  color: rgba(241, 238, 231, 0.25);
+  letter-spacing: 0.1em;
+}
+
+.result-container {
+  width: min(920px, 100%);
+}
+
+.back-button {
+  border: none;
+  background: transparent;
+  color: rgba(241, 238, 231, 0.48);
+  font-size: 13px;
+  font-weight: 300;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 42px;
+  transition: color 0.2s ease;
+}
+
+.back-button:hover {
+  color: #f1eee7;
+}
+
+.hello {
+  font-family: "Noto Serif TC", serif;
+  font-size: clamp(25px, 5vw, 38px);
+  margin-bottom: 13px;
+  letter-spacing: 0.05em;
+}
+
+.identity {
+  font-size: 16px;
+  color: rgba(241, 238, 231, 0.68);
+  margin-bottom: 58px;
+  letter-spacing: 0.08em;
+}
+
+.section {
+  margin-bottom: 48px;
+}
+
+.section-label {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: rgba(241, 238, 231, 0.42);
+  margin-bottom: 15px;
+}
+
+.personality-text {
+  font-family: "Noto Serif TC", serif;
+  font-size: clamp(18px, 3vw, 23px);
+  line-height: 2;
+  color: #f1eee7;
+}
+
+.fortune-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(241, 238, 231, 0.13);
+  border: 1px solid rgba(241, 238, 231, 0.13);
+}
+
+.fortune-item {
+  min-height: 135px;
+  background: #0c0c0c;
+  padding: 27px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fortune-label {
+  font-size: 12px;
+  color: rgba(241, 238, 231, 0.42);
+  letter-spacing: 0.1em;
+}
+
+.fortune-value {
+  font-family: "Noto Serif TC", serif;
+  font-size: 20px;
+  line-height: 1.6;
+  color: #f1eee7;
+}
+
+.reminder-box {
+  border-left: 1px solid rgba(241, 238, 231, 0.35);
+  padding: 5px 0 5px 20px;
+}
+
+.reminder-text {
+  font-family: "Noto Serif TC", serif;
+  font-size: 18px;
+  line-height: 2;
+  color: rgba(241, 238, 231, 0.82);
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 80px 20px 45px;
+  }
+
+  .sponsor-button {
+    top: 15px;
+    right: 15px;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .subtitle {
+    margin-bottom: 42px;
+    font-size: 13px;
+  }
+
+  .fortune-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fortune-item {
+    min-height: 110px;
+  }
+
+  .identity {
+    margin-bottom: 45px;
+  }
+
+  .section {
+    margin-bottom: 40px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- 贊助 -->
-  <a
-    href="https://www.rmhc.org.tw/"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="sponsor-button"
-  >
-    💜 贊助我們
-  </a>
+<a
+  href="https://www.rmhc.org.tw/"
+  target="_blank"
+  rel="noopener noreferrer"
+  class="sponsor-button"
+>
+  💜 贊助我們
+</a>
 
+<section id="startPage" class="page fade-in">
+  <div class="start-container">
 
-  <!-- 首頁 -->
-  <section id="startPage" class="page fade-in">
-    <div class="start-container">
+    <h1 class="main-title">生命探索</h1>
 
-      <h1 class="main-title">生命探索</h1>
+    <p class="subtitle">
+      探索你星座生肖下的秘密
+    </p>
 
-      <p class="subtitle">
-        探索你星座生肖下的秘密
-      </p>
+    <div class="input-group">
 
-      <div class="input-group">
+      <input
+        id="nameInput"
+        class="input-field"
+        type="text"
+        placeholder="輸入你的名字"
+        maxlength="20"
+      />
 
-        <input
-          id="nameInput"
-          class="input-field"
-          type="text"
-          placeholder="輸入你的名字"
-          maxlength="20"
-        />
+      <input
+        id="birthday"
+        class="input-field"
+        type="date"
+      />
 
-        <input
-          id="birthday"
-          class="input-field"
-          type="date"
-        />
+    </div>
 
+    <button
+      id="fortuneButton"
+      class="main-button"
+      onclick="showFortune()"
+    >
+      查看我的運勢
+    </button>
+
+    <div class="visitor-counter">
+      <div id="visitorCount" class="counter-number">0</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="resultPage" class="page hidden">
+
+  <div class="result-container">
+
+    <button
+      class="back-button"
+      onclick="backToStart()"
+    >
+      ← 重新輸入
+    </button>
+
+    <div id="helloText" class="hello">
+      你好
+    </div>
+
+    <div id="identity" class="identity">
+      ♈ 牡羊座 × 🐯 虎
+    </div>
+
+    <div class="section">
+
+      <div class="section-label">
+        個性
       </div>
 
-      <button
-        id="fortuneButton"
-        class="main-button"
-        onclick="showFortune()"
-      >
-        查看我的運勢
-      </button>
+      <div
+        id="personality"
+        class="personality-text"
+      ></div>
 
-      <div class="visitor-counter">
-        <div id="visitorCount" class="counter-number">0</div>
+    </div>
+
+    <div class="section">
+
+      <div class="section-label">
+        今日運勢
+      </div>
+
+      <div class="fortune-grid">
+
+        <div class="fortune-item">
+          <div class="fortune-label">
+            幸運數字
+          </div>
+
+          <div
+            id="luckyNumber"
+            class="fortune-value"
+          >
+            7
+          </div>
+        </div>
+
+        <div class="fortune-item">
+          <div class="fortune-label">
+            幸運顏色
+          </div>
+
+          <div
+            id="luckyColor"
+            class="fortune-value"
+          >
+            藍色
+          </div>
+        </div>
+
+        <div class="fortune-item">
+          <div class="fortune-label">
+            幸運食物
+          </div>
+
+          <div
+            id="luckyFood"
+            class="fortune-value"
+          >
+            皮蛋
+          </div>
+        </div>
+
       </div>
 
     </div>
-  </section>
 
+    <div class="section">
 
-  <!-- 結果頁 -->
-  <section id="resultPage" class="page hidden">
-
-    <div class="result-container">
-
-      <button
-        class="back-button"
-        onclick="backToStart()"
-      >
-        ← 重新輸入
-      </button>
-
-      <div
-        id="helloText"
-        class="hello"
-      >
-        你好
+      <div class="section-label">
+        今日提醒
       </div>
 
-      <div
-        id="identity"
-        class="identity"
-      >
-        ♈ 牡羊座 × 🐯 虎
-      </div>
-
-
-      <!-- 個性 -->
-      <div class="section">
-
-        <div class="section-label">
-          個性
-        </div>
+      <div class="reminder-box">
 
         <div
-          id="personality"
-          class="personality-text"
+          id="reminder"
+          class="reminder-text"
         ></div>
 
       </div>
 
-
-      <!-- 今日運勢 -->
-      <div class="section">
-
-        <div class="section-label">
-          今日運勢
-        </div>
-
-        <div class="fortune-grid">
-
-          <div class="fortune-item">
-            <div class="fortune-label">
-              幸運數字
-            </div>
-
-            <div
-              id="luckyNumber"
-              class="fortune-value"
-            >
-              7
-            </div>
-          </div>
-
-
-          <div class="fortune-item">
-            <div class="fortune-label">
-              幸運顏色
-            </div>
-
-            <div
-              id="luckyColor"
-              class="fortune-value"
-            >
-              藍色
-            </div>
-          </div>
-
-
-          <div class="fortune-item">
-            <div class="fortune-label">
-              幸運食物
-            </div>
-
-            <div
-              id="luckyFood"
-              class="fortune-value"
-            >
-              皮蛋
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- 今日提醒 -->
-      <div class="section">
-
-        <div class="section-label">
-          今日提醒
-        </div>
-
-        <div class="reminder-box">
-
-          <div
-            id="reminder"
-            class="reminder-text"
-          ></div>
-
-        </div>
-
-      </div>
-
     </div>
 
-  </section>
-
-
-  <script>
-
-    /* =========================
-       星座資料
-    ========================= */
-
-    const zodiacSigns = [
-      {
-        name: "牡羊座",
-        emoji: "♈",
-        start: [3, 21],
-        end: [4, 19]
-      },
-      {
-        name: "金牛座",
-        emoji: "♉",
-        start: [4, 20],
-        end: [5, 20]
-      },
-      {
-        name: "雙子座",
-        emoji: "♊",
-        start: [5, 21],
-        end: [6, 20]
-      },
-      {
-        name: "巨蟹座",
-        emoji: "♋",
-        start: [6, 21],
-        end: [7, 22]
-      },
-      {
-        name: "獅子座",
-        emoji: "♌",
-        start: [7, 23],
-        end: [8, 22]
-      },
-      {
-        name: "處女座",
-        emoji: "♍",
-        start: [8, 23],
-        end: [9, 22]
-      },
-      {
-        name: "天秤座",
-        emoji: "♎",
-        start: [9, 23],
-        end: [10, 22]
-      },
-      {
-        name: "天蠍座",
-        emoji: "♏",
-        start: [10, 23],
-        end: [11, 21]
-      },
-      {
-        name: "射手座",
-        emoji: "♐",
-        start: [11, 22],
-        end: [12, 21]
-      },
-      {
-        name: "摩羯座",
-        emoji: "♑",
-        start: [12, 22],
-        end: [1, 19]
-      },
-      {
-        name: "水瓶座",
-        emoji: "♒",
-        start: [1, 20],
-        end: [2, 18]
-      },
-      {
-        name: "雙魚座",
-        emoji: "♓",
-        start: [2, 19],
-        end: [3, 20]
-      }
-    ];
-
-
-    /* =========================
-       生肖資料
-    ========================= */
-
-    const chineseZodiac = [
-      {
-        name: "鼠",
-        emoji: "🐭"
-      },
-      {
-        name: "牛",
-        emoji: "🐮"
-      },
-      {
-        name: "虎",
-        emoji: "🐯"
-      },
-      {
-        name: "兔",
-        emoji: "🐰"
-      },
-      {
-        name: "龍",
-        emoji: "🐲"
-      },
-      {
-        name: "蛇",
-        emoji: "🐍"
-      },
-      {
-        name: "馬",
-        emoji: "🐴"
-      },
-      {
-        name: "羊",
-        emoji: "🐑"
-      },
-      {
-        name: "猴",
-        emoji: "🐵"
-      },
-      {
-        name: "雞",
-        emoji: "🐔"
-      },
-      {
-        name: "狗",
-        emoji: "🐶"
-      },
-      {
-        name: "豬",
-        emoji: "🐷"
-      }
-    ];
-
-
-    /* =========================
-       144 組星座 × 生肖個性
-    ========================= */
-
-    const personalityMap = {
-
-      /* 牡羊座 */
-
-      "牡羊座_鼠": "行動敏捷且直覺銳利，永遠第一時間抓住好機會。",
-      "牡羊座_牛": "衝勁十足卻底氣沉穩，認準目標就一往無前地堅持到底。",
-      "牡羊座_虎": "天生的開路先鋒，懷抱無畏的勇氣與霸氣引領風騷。",
-      "牡羊座_兔": "外表溫和有禮，骨子裡卻藏著一股不服輸的堅毅與果斷。",
-      "牡羊座_龍": "自信滿滿且抱負遠大，能將滿腔熱血化為驚人的創造力。",
-      "牡羊座_蛇": "冷靜洞察配合雷霆手段，行動前蓄勢待發、一擊必中。",
-      "牡羊座_馬": "奔放自由且熱情如火，追求極速與無拘無束的精彩人生。",
-      "牡羊座_羊": "富有同理心且正義感爆棚，願意為守護親友勇敢站出來。",
-      "牡羊座_猴": "機智過人且富有挑戰精神，總能用創意的點子突破困境。",
-      "牡羊座_雞": "效率極高且講求完美，以雷厲風行的態度追求卓越成就。",
-      "牡羊座_狗": "忠誠率真且富有俠義精神，對認定的人事物絕對挺身到底。",
-      "牡羊座_豬": "樂觀豪爽且不拘小節，用真誠與熱情感染身邊的每一個人。",
-
-
-      /* 金牛座 */
-
-      "金牛座_鼠": "心思細密且精於規劃，能踏實地累積出龐大的生活資源。",
-      "金牛座_牛": "務實可靠的極致代表，以驚人的耐力與定力建構穩定王國。",
-      "金牛座_虎": "深謀遠慮且沉得住氣，在關鍵時刻展現威嚴與決斷力。",
-      "金牛座_兔": "氣質優雅且熱愛生活，精通審美與理財的品味生活家。",
-      "金牛座_龍": "性格穩重卻目光遠大，兼具實力與王者般的氣派底蘊。",
-      "金牛座_蛇": "直覺敏銳且防備心強，善於在低調中守護屬於自己的利益。",
-      "金牛座_馬": "腳踏實地卻嚮往廣闊視野，能將理想轉化為具體的長遠成果。",
-      "金牛座_羊": "溫和敦厚且極具包容力，用踏實的關懷給予身邊人安全感。",
-      "金牛座_猴": "外表老實卻心領神會，懂得用靈活手法達到實質的利益。",
-      "金牛座_雞": "紀律嚴明且條理分明，對財務與細節有著無可挑剔的精準度。",
-      "金牛座_狗": "重情重義且非常守信，是身邊親友最值得信賴的強大後盾。",
-      "金牛座_豬": "隨和安詳且懂得享樂，追求物質豐盛與心靈安寧的和諧狀態。",
-
-
-      /* 雙子座 */
-
-      "雙子座_鼠": "反應神速且八面玲瓏，總能第一時間獲取最新資訊。",
-      "雙子座_牛": "古靈精怪中帶著踏實，能將天馬行空的想法落實於生活。",
-      "雙子座_虎": "好奇心強且充滿爆發力，永遠走在探索未知領域的最前線。",
-      "雙子座_兔": "幽默風趣且應對得體，以溫柔靈巧的姿態悠遊於各種社交圈。",
-      "雙子座_龍": "思維超前且充滿魅力，能用精彩的表達感染並帶動眾人。",
-      "雙子座_蛇": "機智過人且心思深沉，善於在資訊交鋒中掌握主導權。",
-      "雙子座_馬": "熱愛自由且多才多藝，隨時準備開啟一場說走就走的冒險。",
-      "雙子座_羊": "心思細膩且充滿想像力，用輕鬆幽默拉近人心之間的距離。",
-      "雙子座_猴": "聰明絕頂且變通極快，是破解所有棘手難題的點子王。",
-      "雙子座_雞": "能言善道且觀察入微，善於用精準的語言剖析事物核心。",
-      "雙子座_狗": "機敏靈巧且嫉惡如仇，總能為不公不義發出睿智的聲音。",
-      "雙子座_豬": "樂天開朗且生性幽默，能化解所有嚴肅緊張的社交氛圍。",
-
-
-      /* 巨蟹座 */
-
-      "巨蟹座_鼠": "直覺敏銳且善解人意，對周遭環境與人心變動瞭若指掌。",
-      "巨蟹座_牛": "堅毅內斂且極具責任感，默默為家庭與事業築起堅固城堡。",
-      "巨蟹座_虎": "外柔內剛且護短心切，為了捍衛愛人會展現無比勇猛的一面。",
-      "巨蟹座_兔": "細膩體貼且氣質溫柔，是大家眼中最能給予撫慰的溫暖存在。",
-      "巨蟹座_龍": "情感豐富且抱負不凡，能將強大的保護欲昇華為領導魅力。",
-      "巨蟹座_蛇": "觀察細緻且自我保護心強，用深邃的直覺避開所有隱患。",
-      "巨蟹座_馬": "感性細膩卻富有行動力，渴望在遼闊世界裡尋找心靈歸屬。",
-      "巨蟹座_羊": "極具親和力與同理心，以溫和堅韌的力量凝聚團隊情感。",
-      "巨蟹座_猴": "心思活絡且善解人意，總能用機智巧思照顧好身邊人的需求。",
-      "巨蟹座_雞": "體貼入微且追求完美，用嚴謹與溫柔將家庭生活治理得井井有條。",
-      "巨蟹座_狗": "極度忠誠且重情重義，會不惜一切代價守護認定的人事物。",
-      "巨蟹座_豬": "包容力強且富有愛心，用無私的溫暖與善意包容身邊所有缺點。",
-
-
-      /* 獅子座 */
-
-      "獅子座_鼠": "氣場強大且靈巧警覺，能迅速抓住機會並站上舞台中央。",
-      "獅子座_牛": "威嚴穩重且說一不二，以極高的人格魅力與毅力征服人心。",
-      "獅子座_虎": "霸氣側漏且勇往直前，天生具備令人折服的王者風範。",
-      "獅子座_兔": "熱情大方中帶著儒雅，以溫和有禮的姿態展現耀眼的自信。",
-      "獅子座_龍": "抱負滔天且光芒四射，具備開創宏偉事業的強大號召力。",
-      "獅子座_蛇": "自信從容且目光深遠，善於在暗中佈局並一舉展現個人威嚴。",
-      "獅子座_馬": "奔放豪爽且感染力極強，永遠是群體中最具活力的領袖角色。",
-      "獅子座_羊": "寬宏大量且富有惻隱之心，願意為了保護弱者而挺身而出。",
-      "獅子座_猴": "幽默風趣且極具魅力，總能成為焦點並輕鬆帶動歡樂氣氛。",
-      "獅子座_雞": "講究形象且要求嚴格，用高標準與強烈自尊打造卓越成果。",
-      "獅子座_狗": "光明磊落且重情重義，是值得託付終身且絕不背叛的靠山。",
-      "獅子座_豬": "豪爽大方且熱情洋溢，樂於分享財富與快樂給所有人。",
-
-
-      /* 處女座 */
-
-      "處女座_鼠": "觀察入微且計算精準，能完美掌控每一個看似不起眼的細節。",
-      "處女座_牛": "極度自律且務實踏實，以完美的職人精神追求無懈可擊。",
-      "處女座_虎": "追求完美且富正義感，對不合理的事物有著極高的改革熱情。",
-      "處女座_兔": "嚴謹內斂且心思細緻，以低調優雅的方式完成複雜任務。",
-      "處女座_龍": "嚴以律己且抱負遠大，能用完美的標準執行最具挑戰的宏圖。",
-      "處女座_蛇": "冷靜理智且洞察人心，善於運用極高的分析力排解疑難雜症。",
-      "處女座_馬": "做事井井有條且充滿效率，兼具完美主義與強大的執行力。",
-      "處女座_羊": "溫柔細心且奉獻心強，總能默默排解難題並照顧好所有人。",
-      "處女座_猴": "聰慧過人且批判力強，能迅速找出隱藏的問題並靈活修正。",
-      "處女座_雞": "追求極致的完美主義者，對組織規律與品質有著絕不妥協的堅持。",
-      "處女座_狗": "盡忠職守且講求原則，用最嚴謹的態度守護正義與秩序。",
-      "處女座_豬": "踏實溫和且熱心助人，在理性分析中帶有滿滿的人情味。",
-
-
-      /* 天秤座 */
-
-      "天秤座_鼠": "圓滑世故且社交能力極佳，總能在複雜人際中游刃有餘。",
-      "天秤座_牛": "追求和諧且意志堅定，在優雅圓融的外表下保有自我底線。",
-      "天秤座_虎": "注重正義且魅力非凡，善於用溫和手段解決強烈的衝突。",
-      "天秤座_兔": "溫柔體貼且審美極高，是優雅品味與和諧人際的完美化身。",
-      "天秤座_龍": "氣質高雅且具大局觀，能在維持平衡的同時帶領眾人前進。",
-      "天秤座_蛇": "外表冷靜優雅且內心敏銳，善於用巧妙的談判達成目標。",
-      "天秤座_馬": "熱愛和平且追求自由，能在隨性與優雅之間取得完美平衡。",
-      "天秤座_羊": "和藹可親且善解人意，是團隊中最受歡迎且擅長協調的潤滑劑。",
-      "天秤座_猴": "風趣幽默且極具公信力，能用輕鬆的方式化解尷尬並凝聚人心。",
-      "天秤座_雞": "講究禮儀且是非分明，以高雅的姿態維護公平與美的標準。",
-      "天秤座_狗": "正直公平且重情重義，甘願為朋友之間的和睦付出一切努力。",
-      "天秤座_豬": "和藹可親且心胸開闊，用豁達與優雅感染身邊的每一個人。",
-
-
-      /* 天蠍座 */
-
-      "天蠍座_鼠": "直覺極強且城府深遠，善於在暗中洞察一切並掌控全局。",
-      "天蠍座_牛": "意志如鋼且專一執著，一旦確立目標便具備摧枯拉朽的決心。",
-      "天蠍座_虎": "爆發力強且敢愛敢恨，擁有令人敬畏的個人威嚴與氣場。",
-      "天蠍座_兔": "外表平靜如水且內心深邃，用溫柔的面具掩蓋強大的企圖心。",
-      "天蠍座_龍": "深謀遠慮且霸氣十足，具備翻轉局面與重組秩序的王者魄力。",
-      "天蠍座_蛇": "神秘莫測且冷靜絕頂，是最懂得韜光養晦並給予致命一擊的智者。",
-      "天蠍座_馬": "情感強烈且追求極致，能將澎湃的激情轉化為驚人的行動力。",
-      "天蠍座_羊": "內心堅韌且富同理心，用深沉而專一的愛守護重視的一切。",
-      "天蠍座_猴": "機智靈敏且善於佈局，能用極高的智商與洞察力突破僵局。",
-      "天蠍座_雞": "銳利嚴謹且觀察力極強，對所有虛偽與瑕疵都無所遁形。",
-      "天蠍座_狗": "極度忠誠且正義感強，對認定的人事物抱持絕不退縮的堅定。",
-      "天蠍座_豬": "感情真摯且包容力強，在深沉的直覺中保有最純粹的善良。",
-
-
-      /* 射手座 */
-
-      "射手座_鼠": "敏捷靈活且熱愛探索，永遠對新奇的事物保持充沛的好奇心。",
-      "射手座_牛": "開朗樂觀卻不失踏實，能在追逐理想的過程中保持務實步調。",
-      "射手座_虎": "熱情洋溢且勇往直前，天生具有冒險家精神與宏大的遠見。",
-      "射手座_兔": "隨和幽默且氣質優雅，以豁達輕鬆的態度面對生活挑戰。",
-      "射手座_龍": "理想崇高且感染力極強，能帶領眾人向著高遠的目標奔跑。",
-      "射手座_蛇": "智慧深邃且熱愛自由，在探索真理的路上兼具直覺與理性。",
-      "射手座_馬": "崇尚自由的極致代表，以不受拘束的熱情翱翔於廣闊天地。",
-      "射手座_羊": "真誠善良且富同情心，用陽光般的笑容感染身邊的所有人。",
-      "射手座_猴": "機智幽默且反應迅速，總能在玩樂與探索中發現無限商機。",
-      "射手座_雞": "坦率直爽且講求效率，能以宏觀的視野與精準的執行力辦事。",
-      "射手座_狗": "坦蕩磊落且重情重義，會為了心中的信念與朋友奮不顧身。",
-      "射手座_豬": "樂天豁達且隨遇而安，用寬廣的心胸享受生命中的點點滴滴。",
-
-
-      /* 摩羯座 */
-
-      "摩羯座_鼠": "目光長遠且腳踏實地，善於在低調中積蓄爆發的力量。",
-      "摩羯座_牛": "堅韌不拔且極具耐力，是成功路上最令人安心的長跑冠軍。",
-      "摩羯座_虎": "雄心勃勃且紀律嚴明，能將巨大的野心轉化為堅實的基業。",
-      "摩羯座_兔": "外表沉穩且心思細緻，以低調務實的態度逐步達成長遠目標。",
-      "摩羯座_龍": "領袖氣質強且意志堅定，具備建立宏大組織與規矩的雄才大略。",
-      "摩羯座_蛇": "深謀遠慮且冷靜沉著，能在複雜環境中精準掌握利害關係。",
-      "摩羯座_馬": "目標明確且極具效率，為了心中的抱負甘願付出無限努力。",
-      "摩羯座_羊": "責任感強且富有同理心，用踏實的行動給予家人最穩固的承諾。",
-      "摩羯座_猴": "大智若愚且靈活變通，善於用務實的手法實現創新的構想。",
-      "摩羯座_雞": "嚴謹自律且追求完美，對專業領域有著極高的標準與堅持。",
-      "摩羯座_狗": "忠誠踏實且恪守原則，是用生命守護責任與承諾的堅固堡壘。",
-      "摩羯座_豬": "務實溫和且重視家庭，在追求事業成功的同時不失人間煙火氣。",
-
-
-      /* 水瓶座 */
-
-      "水瓶座_鼠": "思維前衛且靈活多變，總能提出令人耳目一新的獨到見解。",
-      "水瓶座_牛": "特立獨行卻意志堅定，堅持以自己的節奏實現獨特的人格理想。",
-      "水瓶座_虎": "思想前衛且充滿變革力量，敢於打破陳規並引領時代潮流。",
-      "水瓶座_兔": "和藹可親且思想獨立，在維持人際和諧的同時保有獨特個性。",
-      "水瓶座_龍": "眼光獨到且胸懷天下，具備將前瞻概念轉化為現實的號召力。",
-      "水瓶座_蛇": "冷靜理智且洞察力強，善於用超然的視角看透世事本質。",
-      "水瓶座_馬": "追求獨立且不落俗套，渴望在不受拘束的天地裡發揮想像力。",
-      "水瓶座_羊": "博愛友善且富有想像力，用溫和獨特的方式關懷社會與群眾。",
-      "水瓶座_猴": "聰慧絕頂且創意無限，是顛覆傳統與發明創新的天才型人物。",
-      "水瓶座_雞": "條理分明且客觀公正，能用理性的邏輯排解所有混亂與偏見。",
-      "水瓶座_狗": "崇尚自由且極具正義感，願意為推動社會變革與公平挺身而出。",
-      "水瓶座_豬": "胸懷寬廣且隨和真誠，能以包容的態度接納各種不同的價值觀。",
-
-
-      /* 雙魚座 */
-
-      "雙魚座_鼠": "直覺敏銳且情感豐富，能深刻感知人心並給予精準的體貼。",
-      "雙魚座_牛": "溫柔堅韌且富藝術氣息，能在現實生活中為夢想築起堅固基石。",
-      "雙魚座_虎": "感性細膩卻富有爆發力，能將豐富的情感轉化為震撼人心創作。",
-      "雙魚座_兔": "柔情似水且溫婉動人，具有極高的審美天賦與同理心。",
-      "雙魚座_龍": "富有浪漫情懷與宏大願景，能將夢想昇華為帶領他人的力量。",
-      "雙魚座_蛇": "靈性極高且直覺銳利，善於在靜默中看穿人心與世事變幻。",
-      "雙魚座_馬": "熱愛幻想且充滿熱情，渴望在現實與夢想之間自由馳騁。",
-      "雙魚座_羊": "極其溫柔且富有奉獻精神，是世間最純粹且溫暖的陪伴者。",
-      "雙魚座_猴": "靈巧多變且富有想像力，總能用奇思妙想為生活增添無限樂趣。",
-      "雙魚座_雞": "細心體貼且追求完美，善於用靈性與嚴謹處理複雜的情感與事務。",
-      "雙魚座_狗": "忠誠善良且富有同情心，用最深情的執著守護身邊的每一個人。",
-      "雙魚座_豬": "隨和善良且心胸包容，用無私的愛與理解撫平周遭的一切傷痛。"
-
-    };
-
-
-    /* =========================
-       幸運顏色
-    ========================= */
-
-    const luckyColors = [
-      "紅色",
-      "橘色",
-      "黃色",
-      "綠色",
-      "藍色",
-      "紫色",
-      "黑色",
-      "白色",
-      "彩色",
-      "青澀",
-      "角色",
-      "垃圾",
-      "變色"
-    ];
-
-
-    /* =========================
-       幸運食物
-    ========================= */
-
-    const luckyFoods = [
-      "皮蛋",
-      "加芋頭的火鍋",
-      "沒加芋頭的火鍋",
-      "牛肉麵（在凌晨4點吃）",
-      "夏威夷披薩",
-      "咖哩",
-      "蔡阿嘎",
-      "蛋塔",
-      "鹹水雞",
-      "珍珠礦泉水",
-      "便當",
-      "雞排",
-      "牛排",
-      "豬排",
-      "骨頭",
-      "貓飼料"
-    ];
-
-
-    /* =========================
-       今日提醒
-    ========================= */
-
-    const reminders = [
-      "今天不用急著證明自己，慢慢走也算是在前進。",
-      "有些事情不用想得太複雜，順其自然反而會有驚喜。",
-      "今天適合做一件一直想做，卻還沒有開始的小事。",
-      "別忘了留一點時間給自己，生活不只有待辦事項。",
-      "今天遇到奇怪的事情，也許只是世界在跟你開玩笑。",
-      "有時候換個角度看，原本困擾你的事情就沒那麼嚴重了。",
-      "今天保持一點好奇心，可能會發現意料之外的樂趣。",
-      "不用每件事情都有答案，有些事情保持神秘也很好。",
-      "今天適合相信自己的第一直覺。",
-      "記得喝水，也記得偶爾看看窗外。",
-      "如果不知道要做什麼，就先把眼前的一件事情做好。",
-      "今天可能會遇到一個讓你忍不住笑出來的瞬間。",
-      "別太在意別人的目光，你的人生不是觀眾席上的人決定的。",
-      "今天適合放慢一點，仔細感受正在發生的事情。",
-      "有些好事不會立刻發生，但不代表它沒有正在靠近。"
-    ];
-
-
-    /* =========================
-       DOM
-    ========================= */
-
-    const startPage =
-      document.getElementById("startPage");
-
-    const resultPage =
-      document.getElementById("resultPage");
-
-    const nameInput =
-      document.getElementById("nameInput");
-
-    const birthday =
-      document.getElementById("birthday");
-
-    const helloText =
-      document.getElementById("helloText");
-
-    const identity =
-      document.getElementById("identity");
-
-    const personality =
-      document.getElementById("personality");
-
-    const luckyNumber =
-      document.getElementById("luckyNumber");
-
-    const luckyColor =
-      document.getElementById("luckyColor");
-
-    const luckyFood =
-      document.getElementById("luckyFood");
-
-    const reminder =
-      document.getElementById("reminder");
-
-    const visitorCount =
-      document.getElementById("visitorCount");
-
-
-    /* =========================
-       工具
-    ========================= */
-
-    function randomItem(array) {
-      return array[
-        Math.floor(Math.random() * array.length)
-      ];
-    }
-
-
-    function getZodiacSign(dateString) {
-
-      const date = new Date(dateString + "T00:00:00");
-
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-
-      for (const sign of zodiacSigns) {
-
-        const [startMonth, startDay] = sign.start;
-        const [endMonth, endDay] = sign.end;
-
-        if (startMonth === 12 && endMonth === 1) {
-
-          if (
-            (month === 12 && day >= startDay) ||
-            (month === 1 && day <= endDay)
-          ) {
-            return sign;
-          }
-
-        } else {
-
-          const afterStart =
-            month > startMonth ||
-            (month === startMonth && day >= startDay);
-
-          const beforeEnd =
-            month < endMonth ||
-            (month === endMonth && day <= endDay);
-
-          if (afterStart && beforeEnd) {
-            return sign;
-          }
-        }
+  </div>
+
+</section>
+
+<script>
+
+const zodiacSigns = [
+  { name:"牡羊座", emoji:"♈", start:[3,21], end:[4,19] },
+  { name:"金牛座", emoji:"♉", start:[4,20], end:[5,20] },
+  { name:"雙子座", emoji:"♊", start:[5,21], end:[6,20] },
+  { name:"巨蟹座", emoji:"♋", start:[6,21], end:[7,22] },
+  { name:"獅子座", emoji:"♌", start:[7,23], end:[8,22] },
+  { name:"處女座", emoji:"♍", start:[8,23], end:[9,22] },
+  { name:"天秤座", emoji:"♎", start:[9,23], end:[10,22] },
+  { name:"天蠍座", emoji:"♏", start:[10,23], end:[11,21] },
+  { name:"射手座", emoji:"♐", start:[11,22], end:[12,21] },
+  { name:"摩羯座", emoji:"♑", start:[12,22], end:[1,19] },
+  { name:"水瓶座", emoji:"♒", start:[1,20], end:[2,18] },
+  { name:"雙魚座", emoji:"♓", start:[2,19], end:[3,20] }
+];
+
+const chineseZodiac = [
+  { name:"鼠", emoji:"🐭" },
+  { name:"牛", emoji:"🐮" },
+  { name:"虎", emoji:"🐯" },
+  { name:"兔", emoji:"🐰" },
+  { name:"龍", emoji:"🐲" },
+  { name:"蛇", emoji:"🐍" },
+  { name:"馬", emoji:"🐴" },
+  { name:"羊", emoji:"🐑" },
+  { name:"猴", emoji:"🐵" },
+  { name:"雞", emoji:"🐔" },
+  { name:"狗", emoji:"🐶" },
+  { name:"豬", emoji:"🐷" }
+];
+
+const personalityMap = {
+
+"牡羊座_鼠":"行動敏捷且直覺銳利，永遠第一時間抓住好機會。",
+"牡羊座_牛":"衝勁十足卻底氣沉穩，認準目標就一往無前地堅持到底。",
+"牡羊座_虎":"天生的開路先鋒，懷抱無畏的勇氣與霸氣引領風騷。",
+"牡羊座_兔":"外表溫和有禮，骨子裡卻藏著一股不服輸的堅毅與果斷。",
+"牡羊座_龍":"自信滿滿且抱負遠大，能將滿腔熱血化為驚人的創造力。",
+"牡羊座_蛇":"冷靜洞察配合雷霆手段，行動前蓄勢待發、一擊必中。",
+"牡羊座_馬":"奔放自由且熱情如火，追求極速與無拘無束的精彩人生。",
+"牡羊座_羊":"富有同理心且正義感爆棚，願意為守護親友勇敢站出來。",
+"牡羊座_猴":"機智過人且富有挑戰精神，總能用創意的點子突破困境。",
+"牡羊座_雞":"效率極高且講求完美，以雷厲風行的態度追求卓越成就。",
+"牡羊座_狗":"忠誠率真且富有俠義精神，對認定的人事物絕對挺身到底。",
+"牡羊座_豬":"樂觀豪爽且不拘小節，用真誠與熱情感染身邊的每一個人。",
+
+"金牛座_鼠":"心思細密且精於規劃，能踏實地累積出龐大的生活資源。",
+"金牛座_牛":"務實可靠的極致代表，以驚人的耐力與定力建構穩定王國。",
+"金牛座_虎":"深謀遠慮且沉得住氣，在關鍵時刻展現威嚴與決斷力。",
+"金牛座_兔":"氣質優雅且熱愛生活，精通審美與理財的品味生活家。",
+"金牛座_龍":"性格穩重卻目光遠大，兼具實力與王者般的氣派底蘊。",
+"金牛座_蛇":"直覺敏銳且防備心強，善於在低調中守護屬於自己的利益。",
+"金牛座_馬":"腳踏實地卻嚮往廣闊視野，能將理想轉化為具體的長遠成果。",
+"金牛座_羊":"溫和敦厚且極具包容力，用踏實的關懷給予身邊人安全感。",
+"金牛座_猴":"外表老實卻心領神會，懂得用靈活手法達到實質的利益。",
+"金牛座_雞":"紀律嚴明且條理分明，對財務與細節有著無可挑剔的精準度。",
+"金牛座_狗":"重情重義且非常守信，是身邊親友最值得信賴的強大後盾。",
+"金牛座_豬":"隨和安詳且懂得享樂，追求物質豐盛與心靈安寧的和諧狀態。",
+
+"雙子座_鼠":"反應神速且八面玲瓏，總能第一時間獲取最新資訊。",
+"雙子座_牛":"古靈精怪中帶著踏實，能將天馬行空的想法落實於生活。",
+"雙子座_虎":"好奇心強且充滿爆發力，永遠走在探索未知領域的最前線。",
+"雙子座_兔":"幽默風趣且應對得體，以溫柔靈巧的姿態悠遊於各種社交圈。",
+"雙子座_龍":"思維超前且充滿魅力，能用精彩的表達感染並帶動眾人。",
+"雙子座_蛇":"機智過人且心思深沉，善於在資訊交鋒中掌握主導權。",
+"雙子座_馬":"熱愛自由且多才多藝，隨時準備開啟一場說走就走的冒險。",
+"雙子座_羊":"心思細膩且充滿想像力，用輕鬆幽默拉近人心之間的距離。",
+"雙子座_猴":"聰明絕頂且變通極快，是破解所有棘手難題的點子王。",
+"雙子座_雞":"能言善道且觀察入微，善於用精準的語言剖析事物核心。",
+"雙子座_狗":"機敏靈巧且嫉惡如仇，總能為不公不義發出睿智的聲音。",
+"雙子座_豬":"樂天開朗且生性幽默，能化解所有嚴肅緊張的社交氛圍。",
+
+"巨蟹座_鼠":"直覺敏銳且善解人意，對周遭環境與人心變動瞭若指掌。",
+"巨蟹座_牛":"堅毅內斂且極具責任感，默默為家庭與事業築起堅固城堡。",
+"巨蟹座_虎":"外柔內剛且護短心切，為了捍衛愛人會展現無比勇猛的一面。",
+"巨蟹座_兔":"細膩體貼且氣質溫柔，是大家眼中最能給予撫慰的溫暖存在。",
+"巨蟹座_龍":"情感豐富且抱負不凡，能將強大的保護欲昇華為領導魅力。",
+"巨蟹座_蛇":"觀察細緻且自我保護心強，用深邃的直覺避開所有隱患。",
+"巨蟹座_馬":"感性細膩卻富有行動力，渴望在遼闊世界裡尋找心靈歸屬。",
+"巨蟹座_羊":"極具親和力與同理心，以溫和堅韌的力量凝聚團隊情感。",
+"巨蟹座_猴":"心思活絡且善解人意，總能用機智巧思照顧好身邊人的需求。",
+"巨蟹座_雞":"體貼入微且追求完美，用嚴謹與溫柔將家庭生活治理得井井有條。",
+"巨蟹座_狗":"極度忠誠且重情重義，會不惜一切代價守護認定的人事物。",
+"巨蟹座_豬":"包容力強且富有愛心，用無私的溫暖與善意包容身邊所有缺點。",
+
+"獅子座_鼠":"氣場強大且靈巧警覺，能迅速抓住機會並站上舞台中央。",
+"獅子座_牛":"威嚴穩重且說一不二，以極高的人格魅力與毅力征服人心。",
+"獅子座_虎":"霸氣側漏且勇往直前，天生具備令人折服的王者風範。",
+"獅子座_兔":"熱情大方中帶著儒雅，以溫和有禮的姿態展現耀眼的自信。",
+"獅子座_龍":"抱負滔天且光芒四射，具備開創宏偉事業的強大號召力。",
+"獅子座_蛇":"自信從容且目光深遠，善於在暗中佈局並一舉展現個人威嚴。",
+"獅子座_馬":"奔放豪爽且感染力極強，永遠是群體中最具活力的領袖角色。",
+"獅子座_羊":"寬宏大量且富有惻隱之心，願意為了保護弱者而挺身而出。",
+"獅子座_猴":"幽默風趣且極具魅力，總能成為焦點並輕鬆帶動歡樂氣氛。",
+"獅子座_雞":"講究形象且要求嚴格，用高標準與強烈自尊打造卓越成果。",
+"獅子座_狗":"光明磊落且重情重義，是值得託付終身且絕不背叛的靠山。",
+"獅子座_豬":"豪爽大方且熱情洋溢，樂於分享財富與快樂給所有人。",
+
+"處女座_鼠":"觀察入微且計算精準，能完美掌控每一個看似不起眼的細節。",
+"處女座_牛":"極度自律且務實踏實，以完美的職人精神追求無懈可擊。",
+"處女座_虎":"追求完美且富正義感，對不合理的事物有著極高的改革熱情。",
+"處女座_兔":"嚴謹內斂且心思細緻，以低調優雅的方式完成複雜任務。",
+"處女座_龍":"嚴以律己且抱負遠大，能用完美的標準執行最具挑戰的宏圖。",
+"處女座_蛇":"冷靜理智且洞察人心，善於運用極高的分析力排解疑難雜症。",
+"處女座_馬":"做事井井有條且充滿效率，兼具完美主義與強大的執行力。",
+"處女座_羊":"溫柔細心且奉獻心強，總能默默排解難題並照顧好所有人。",
+"處女座_猴":"聰慧過人且批判力強，能迅速找出隱藏的問題並靈活修正。",
+"處女座_雞":"追求極致的完美主義者，對組織規律與品質有著絕不妥協的堅持。",
+"處女座_狗":"盡忠職守且講求原則，用最嚴謹的態度守護正義與秩序。",
+"處女座_豬":"踏實溫和且熱心助人，在理性分析中帶有滿滿的人情味。",
+
+"天秤座_鼠":"圓滑世故且社交能力極佳，總能在複雜人際中游刃有餘。",
+"天秤座_牛":"追求和諧且意志堅定，在優雅圓融的外表下保有自我底線。",
+"天秤座_虎":"注重正義且魅力非凡，善於用溫和手段解決強烈的衝突。",
+"天秤座_兔":"溫柔體貼且審美極高，是優雅品味與和諧人際的完美化身。",
+"天秤座_龍":"氣質高雅且具大局觀，能在維持平衡的同時帶領眾人前進。",
+"天秤座_蛇":"外表冷靜優雅且內心敏銳，善於用巧妙的談判達成目標。",
+"天秤座_馬":"熱愛和平且追求自由，能在隨性與優雅之間取得完美平衡。",
+"天秤座_羊":"和藹可親且善解人意，是團隊中最受歡迎且擅長協調的潤滑劑。",
+"天秤座_猴":"風趣幽默且極具公信力，能用輕鬆的方式化解尷尬並凝聚人心。",
+"天秤座_雞":"講究禮儀且是非分明，以高雅的姿態維護公平與美的標準。",
+"天秤座_狗":"正直公平且重情重義，甘願為朋友之間的和睦付出一切努力。",
+"天秤座_豬":"和藹可親且心胸開闊，用豁達與優雅感染身邊的每一個人。",
+
+"天蠍座_鼠":"直覺極強且城府深遠，善於在暗中洞察一切並掌控全局。",
+"天蠍座_牛":"意志如鋼且專一執著，一旦確立目標便具備摧枯拉朽的決心。",
+"天蠍座_虎":"爆發力強且敢愛敢恨，擁有令人敬畏的個人威嚴與氣場。",
+"天蠍座_兔":"外表平靜如水且內心深邃，用溫柔的面具掩蓋強大的企圖心。",
+"天蠍座_龍":"深謀遠慮且霸氣十足，具備翻轉局面與重組秩序的王者魄力。",
+"天蠍座_蛇":"神秘莫測且冷靜絕頂，是最懂得韜光養晦並給予致命一擊的智者。",
+"天蠍座_馬":"情感強烈且追求極致，能將澎湃的激情轉化為驚人的行動力。",
+"天蠍座_羊":"內心堅韌且富同理心，用深沉而專一的愛守護重視的一切。",
+"天蠍座_猴":"機智靈敏且善於佈局，能用極高的智商與洞察力突破僵局。",
+"天蠍座_雞":"銳利嚴謹且觀察力極強，對所有虛偽與瑕疵都無所遁形。",
+"天蠍座_狗":"極度忠誠且正義感強，對認定的人事物抱持絕不退縮的堅定。",
+"天蠍座_豬":"感情真摯且包容力強，在深沉的直覺中保有最純粹的善良。",
+
+"射手座_鼠":"敏捷靈活且熱愛探索，永遠對新奇的事物保持充沛的好奇心。",
+"射手座_牛":"開朗樂觀卻不失踏實，能在追逐理想的過程中保持務實步調。",
+"射手座_虎":"熱情洋溢且勇往直前，天生具有冒險家精神與宏大的遠見。",
+"射手座_兔":"隨和幽默且氣質優雅，以豁達輕鬆的態度面對生活挑戰。",
+"射手座_龍":"理想崇高且感染力極強，能帶領眾人向著高遠的目標奔跑。",
+"射手座_蛇":"智慧深邃且熱愛自由，在探索真理的路上兼具直覺與理性。",
+"射手座_馬":"崇尚自由的極致代表，以不受拘束的熱情翱翔於廣闊天地。",
+"射手座_羊":"真誠善良且富同情心，用陽光般的笑容感染身邊的所有人。",
+"射手座_猴":"機智幽默且反應迅速，總能在玩樂與探索中發現無限商機。",
+"射手座_雞":"坦率直爽且講求效率，能以宏觀的視野與精準的執行力辦事。",
+"射手座_狗":"坦蕩磊落且重情重義，會為了心中的信念與朋友奮不顧身。",
+"射手座_豬":"樂天豁達且隨遇而安，用寬廣的心胸享受生命中的點點滴滴。",
+
+"摩羯座_鼠":"目光長遠且腳踏實地，善於在低調中積蓄爆發的力量。",
+"摩羯座_牛":"堅韌不拔且極具耐力，是成功路上最令人安心的長跑冠軍。",
+"摩羯座_虎":"雄心勃勃且紀律嚴明，能將巨大的野心轉化為堅實的基業。",
+"摩羯座_兔":"外表沉穩且心思細緻，以低調務實的態度逐步達成長遠目標。",
+"摩羯座_龍":"領袖氣質強且意志堅定，具備建立宏大組織與規矩的雄才大略。",
+"摩羯座_蛇":"深謀遠慮且冷靜沉著，能在複雜環境中精準掌握利害關係。",
+"摩羯座_馬":"目標明確且極具效率，為了心中的抱負甘願付出無限努力。",
+"摩羯座_羊":"責任感強且富有同理心，用踏實的行動給予家人最穩固的承諾。",
+"摩羯座_猴":"大智若愚且靈活變通，善於用務實的手法實現創新的構想。",
+"摩羯座_雞":"嚴謹自律且追求完美，對專業領域有著極高的標準與堅持。",
+"摩羯座_狗":"忠誠踏實且恪守原則，是用生命守護責任與承諾的堅固堡壘。",
+"摩羯座_豬":"務實溫和且重視家庭，在追求事業成功的同時不失人間煙火氣。",
+
+"水瓶座_鼠":"思維前衛且靈活多變，總能提出令人耳目一新的獨到見解。",
+"水瓶座_牛":"特立獨行卻意志堅定，堅持以自己的節奏實現獨特的人格理想。",
+"水瓶座_虎":"思想前衛且充滿變革力量，敢於打破陳規並引領時代潮流。",
+"水瓶座_兔":"和藹可親且思想獨立，在維持人際和諧的同時保有獨特個性。",
+"水瓶座_龍":"眼光獨到且胸懷天下，具備將前瞻概念轉化為現實的號召力。",
+"水瓶座_蛇":"冷靜理智且洞察力強，善於用超然的視角看透世事本質。",
+"水瓶座_馬":"追求獨立且不落俗套，渴望在不受拘束的天地裡發揮想像力。",
+"水瓶座_羊":"博愛友善且富有想像力，用溫和獨特的方式關懷社會與群眾。",
+"水瓶座_猴":"聰慧絕頂且創意無限，是顛覆傳統與發明創新的天才型人物。",
+"水瓶座_雞":"條理分明且客觀公正，能用理性的邏輯排解所有混亂與偏見。",
+"水瓶座_狗":"崇尚自由且極具正義感，願意為推動社會變革與公平挺身而出。",
+"水瓶座_豬":"胸懷寬廣且隨和真誠，能以包容的態度接納各種不同的價值觀。",
+
+"雙魚座_鼠":"直覺敏銳且情感豐富，能深刻感知人心並給予精準的體貼。",
+"雙魚座_牛":"溫柔堅韌且富藝術氣息，能在現實生活中為夢想築起堅固基石。",
+"雙魚座_虎":"感性細膩卻富有爆發力，能將豐富的情感轉化為震撼人心創作。",
+"雙魚座_兔":"柔情似水且溫婉動人，具有極高的審美天賦與同理心。",
+"雙魚座_龍":"富有浪漫情懷與宏大願景，能將夢想昇華為帶領他人的力量。",
+"雙魚座_蛇":"靈性極高且直覺銳利，善於在靜默中看穿人心與世事變幻。",
+"雙魚座_馬":"熱愛幻想且充滿熱情，渴望在現實與夢想之間自由馳騁。",
+"雙魚座_羊":"極其溫柔且富有奉獻精神，是世間最純粹且溫暖的陪伴者。",
+"雙魚座_猴":"靈巧多變且富有想像力，總能用奇思妙想為生活增添無限樂趣。",
+"雙魚座_雞":"細心體貼且追求完美，善於用靈性與嚴謹處理複雜的情感與事務。",
+"雙魚座_狗":"忠誠善良且富有同情心，用最深情的執著守護身邊的每一個人。",
+"雙魚座_豬":"隨和善良且心胸包容，用無私的愛與理解撫平周遭的一切傷痛。"
+
+};
+
+const luckyColors = [
+  "紅色","橘色","黃色","綠色","藍色","紫色","黑色",
+  "白色","彩色","青澀","角色","垃圾","變色"
+];
+
+const luckyFoods = [
+  "皮蛋",
+  "加芋頭的火鍋",
+  "沒加芋頭的火鍋",
+  "牛肉麵（在凌晨4點吃）",
+  "夏威夷披薩",
+  "咖哩",
+  "蔡阿嘎",
+  "蛋塔",
+  "鹹水雞",
+  "珍珠礦泉水",
+  "便當",
+  "雞排",
+  "牛排",
+  "豬排",
+  "骨頭",
+  "貓飼料"
+];
+
+const reminders = [
+  "今天不用急著證明自己，慢慢走也算是在前進。",
+  "有些事情不用想得太複雜，順其自然反而會有驚喜。",
+  "今天適合做一件一直想做，卻還沒有開始的小事。",
+  "別忘了留一點時間給自己，生活不只有待辦事項。",
+  "今天遇到奇怪的事情，也許只是世界在跟你開玩笑。",
+  "有時候換個角度看，原本困擾你的事情就沒那麼嚴重了。",
+  "今天保持一點好奇心，可能會發現意料之外的樂趣。",
+  "不用每件事情都有答案，有些事情保持神秘也很好。",
+  "今天適合相信自己的第一直覺。",
+  "記得喝水，也記得偶爾看看窗外。",
+  "如果不知道要做什麼，就先把眼前的一件事情做好。",
+  "今天可能會遇到一個讓你忍不住笑出來的瞬間。",
+  "別太在意別人的目光，你的人生不是觀眾席上的人決定的。",
+  "今天適合放慢一點，仔細感受正在發生的事情。",
+  "有些好事不會立刻發生，但不代表它沒有正在靠近。"
+];
+
+const startPage = document.getElementById("startPage");
+const resultPage = document.getElementById("resultPage");
+const nameInput = document.getElementById("nameInput");
+const birthday = document.getElementById("birthday");
+const helloText = document.getElementById("helloText");
+const identity = document.getElementById("identity");
+const personality = document.getElementById("personality");
+const luckyNumber = document.getElementById("luckyNumber");
+const luckyColor = document.getElementById("luckyColor");
+const luckyFood = document.getElementById("luckyFood");
+const reminder = document.getElementById("reminder");
+const visitorCount = document.getElementById("visitorCount");
+
+function randomItem(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+function getZodiacSign(dateString) {
+
+  const date = new Date(dateString + "T00:00:00");
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  for (const sign of zodiacSigns) {
+
+    const [startMonth, startDay] = sign.start;
+    const [endMonth, endDay] = sign.end;
+
+    if (startMonth === 12 && endMonth === 1) {
+
+      if (
+        (month === 12 && day >= startDay) ||
+        (month === 1 && day <= endDay)
+      ) {
+        return sign;
       }
 
-      return zodiacSigns[0];
-    }
+    } else {
 
+      const afterStart =
+        month > startMonth ||
+        (month === startMonth && day >= startDay);
 
-    function getChineseZodiac(year) {
+      const beforeEnd =
+        month < endMonth ||
+        (month === endMonth && day <= endDay);
 
-      const index =
-        (year - 2020) % 12;
-
-      const fixedIndex =
-        (index + 12) % 12;
-
-      return chineseZodiac[fixedIndex];
-    }
-
-
-    /* =========================
-       神秘數字
-    ========================= */
-
-    function increaseVisitorCount() {
-
-      let count =
-        Number(localStorage.getItem("lifeExplorerCount")) || 0;
-
-      count++;
-
-      localStorage.setItem(
-        "lifeExplorerCount",
-        count
-      );
-
-      visitorCount.textContent = count;
-    }
-
-
-    function loadVisitorCount() {
-
-      const count =
-        Number(localStorage.getItem("lifeExplorerCount")) || 0;
-
-      visitorCount.textContent = count;
-    }
-
-
-    /* =========================
-       顯示結果
-    ========================= */
-
-    function showFortune() {
-
-      const name =
-        nameInput.value.trim();
-
-      const birthDate =
-        birthday.value;
-
-      if (!name) {
-        nameInput.focus();
-        return;
+      if (afterStart && beforeEnd) {
+        return sign;
       }
+    }
+  }
 
-      if (!birthDate) {
-        birthday.focus();
-        return;
-      }
+  return zodiacSigns[0];
+}
 
+function getChineseZodiac(year) {
 
-      const date =
-        new Date(birthDate + "T00:00:00");
+  const index = (year - 2020) % 12;
+  const fixedIndex = (index + 12) % 12;
 
-      const sign =
-        getZodiacSign(birthDate);
-
-      const animal =
-        getChineseZodiac(date.getFullYear());
+  return chineseZodiac[fixedIndex];
+}
 
 
-      /*
-        找到 144 組中的對應個性
-      */
+/* 神秘數字 */
 
-      const personalityKey =
-        sign.name + "_" + animal.name;
+async function increaseVisitorCount() {
 
-      const selectedPersonality =
-        personalityMap[personalityKey] || "";
+  const { data, error } =
+    await supabaseClient.rpc("increment_quiz_count");
 
+  if (error) {
+    console.error("計數失敗：", error);
+    return;
+  }
 
-      /*
-        顯示姓名
-      */
+  if (data !== null) {
+    visitorCount.textContent = data;
+  }
+}
 
-      helloText.textContent =
-        "你好，" + name;
+async function loadVisitorCount() {
 
+  const { data, error } =
+    await supabaseClient
+      .from("quiz_stats")
+      .select("count")
+      .eq("id", 1)
+      .single();
 
-      /*
-        星座 × 生肖
-      */
+  if (error) {
+    console.error("讀取計數失敗：", error);
+    return;
+  }
 
-      identity.textContent =
-        sign.emoji +
-        " " +
-        sign.name +
-        " × " +
-        animal.emoji +
-        " " +
-        animal.name;
-
-
-      /*
-        個性
-      */
-
-      personality.textContent =
-        selectedPersonality;
+  visitorCount.textContent = data.count;
+}
 
 
-      /*
-        隨機幸運內容
-      */
+/* 顯示結果 */
 
-      luckyNumber.textContent =
-        Math.floor(Math.random() * 9) + 1;
+async function showFortune() {
 
-      luckyColor.textContent =
-        randomItem(luckyColors);
+  const name = nameInput.value.trim();
+  const birthDate = birthday.value;
 
-      luckyFood.textContent =
-        randomItem(luckyFoods);
+  if (!name) {
+    nameInput.focus();
+    return;
+  }
 
-      reminder.textContent =
-        randomItem(reminders);
+  if (!birthDate) {
+    birthday.focus();
+    return;
+  }
+
+  const date =
+    new Date(birthDate + "T00:00:00");
+
+  const sign =
+    getZodiacSign(birthDate);
+
+  const animal =
+    getChineseZodiac(date.getFullYear());
+
+  const personalityKey =
+    sign.name + "_" + animal.name;
+
+  const selectedPersonality =
+    personalityMap[personalityKey] || "";
+
+  helloText.textContent =
+    "你好，" + name;
+
+  identity.textContent =
+    sign.emoji +
+    " " +
+    sign.name +
+    " × " +
+    animal.emoji +
+    " " +
+    animal.name;
+
+  personality.textContent =
+    selectedPersonality;
+
+  luckyNumber.textContent =
+    Math.floor(Math.random() * 9) + 1;
+
+  luckyColor.textContent =
+    randomItem(luckyColors);
+
+  luckyFood.textContent =
+    randomItem(luckyFoods);
+
+  reminder.textContent =
+    randomItem(reminders);
 
 
-      /*
-        增加神秘數字
-      */
+  /* 完成測驗後才增加 */
 
-      increaseVisitorCount();
+  await increaseVisitorCount();
 
 
-      /*
-        切換頁面
-      */
+  startPage.classList.add("hidden");
 
-      startPage.classList.add("hidden");
+  resultPage.classList.remove("hidden");
 
-      resultPage.classList.remove("hidden");
+  resultPage.classList.remove("fade-in");
 
-      resultPage.classList.remove("fade-in");
+  void resultPage.offsetWidth;
 
-      void resultPage.offsetWidth;
+  resultPage.classList.add("fade-in");
 
-      resultPage.classList.add("fade-in");
+  window.scrollTo({
+    top: 0,
+    behavior: "instant"
+  });
+}
 
-      window.scrollTo({
-        top: 0,
-        behavior: "instant"
-      });
+
+/* 回首頁 */
+
+function backToStart() {
+
+  resultPage.classList.add("hidden");
+
+  startPage.classList.remove("hidden");
+
+  startPage.classList.remove("fade-in");
+
+  void startPage.offsetWidth;
+
+  startPage.classList.add("fade-in");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "instant"
+  });
+}
+
+
+/* Enter 操作 */
+
+nameInput.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (event.key === "Enter") {
+      showFortune();
     }
 
+  }
+);
 
-    /* =========================
-       回首頁
-    ========================= */
+birthday.addEventListener(
+  "keydown",
+  function(event) {
 
-    function backToStart() {
-
-      resultPage.classList.add("hidden");
-
-      startPage.classList.remove("hidden");
-
-      startPage.classList.remove("fade-in");
-
-      void startPage.offsetWidth;
-
-      startPage.classList.add("fade-in");
-
-      window.scrollTo({
-        top: 0,
-        behavior: "instant"
-      });
+    if (event.key === "Enter") {
+      showFortune();
     }
 
-
-    /* =========================
-       Enter 操作
-    ========================= */
-
-    nameInput.addEventListener(
-      "keydown",
-      function (event) {
-
-        if (event.key === "Enter") {
-          showFortune();
-        }
-
-      }
-    );
+  }
+);
 
 
-    birthday.addEventListener(
-      "keydown",
-      function (event) {
+/* 日期不能選未來 */
 
-        if (event.key === "Enter") {
-          showFortune();
-        }
+const today = new Date();
 
-      }
-    );
+const year = today.getFullYear();
 
+const month =
+  String(today.getMonth() + 1).padStart(2, "0");
 
-    /* =========================
-       日期不能選未來
-    ========================= */
+const day =
+  String(today.getDate()).padStart(2, "0");
 
-    const today =
-      new Date();
-
-    const year =
-      today.getFullYear();
-
-    const month =
-      String(today.getMonth() + 1).padStart(2, "0");
-
-    const day =
-      String(today.getDate()).padStart(2, "0");
-
-    birthday.max =
-      `${year}-${month}-${day}`;
+birthday.max =
+  `${year}-${month}-${day}`;
 
 
-    /* =========================
-       初始化
-    ========================= */
+/* 啟動網站時，只讀取目前總數 */
 
-    loadVisitorCount();
+loadVisitorCount();
 
-  </script>
+</script>
 
 </body>
 </html>
